@@ -1,0 +1,29 @@
+name: Terraform CICD workflow
+
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY  }}
+      AWS_DEFAULT_REGION: us-east-1
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v4
+      - name: setup terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.8
+      - name: terraform init
+        run: terraform init
+      - name: terraform plan
+        run: terraform plan -out=tfplan
+      - name: terraform apply
+        run: terraform apply -auto-approve tfplan
+      
