@@ -70,7 +70,3 @@ resource "aws_instance" "name" {
   
 }
 
-
-
-# you can create private subnet 
-# create Elastic IP and create nate gateway 
